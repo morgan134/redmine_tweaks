@@ -39,16 +39,16 @@ module RedmineTweaks
     mm = date.strftime('%m')
     dd = date.strftime('%d')
     yy = date.strftime('%y')
-    type = date.sunday? ? 'jpg' : 'gif'
+    type = 'jpg'
     filename = 'ga' + yy + mm + dd
 
-    host = 'images.ucomics.com'
+    host = 'garfield.com'
     local_path = "#{Rails.root}/tmp/_garfield_#{filename}.#{type}"
 
     # cache file if it doesn't exist
     unless File.file?(local_path)
       Net::HTTP.start(host) do |http|
-        resp = http.get('/comics/ga/' + yyyy + '/' + filename + '.' + type)
+        resp = http.get('/uploads/strips/' + yyyy + '-' + mm + '-' + dd + '.' + type)
         unless resp.code == '404'
           open(local_path, 'wb') { |file| file.write(resp.body) }
         end
