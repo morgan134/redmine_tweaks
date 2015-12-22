@@ -40,7 +40,7 @@ module RedmineTweaks
     dd = date.strftime('%d')
     yy = date.strftime('%y')
     type = 'jpg'
-    filename = 'ga' + yy + mm + dd
+    filename = yyyy + '-' + mm + '-' + dd
 
     host = 'garfield.com'
     local_path = "#{Rails.root}/tmp/_garfield_#{filename}.#{type}"
@@ -48,7 +48,7 @@ module RedmineTweaks
     # cache file if it doesn't exist
     unless File.file?(local_path)
       Net::HTTP.start(host) do |http|
-        resp = http.get('/uploads/strips/' + yyyy + '-' + mm + '-' + dd + '.' + type)
+        resp = http.get('/uploads/strips/' + filename + '.' + type)
         unless resp.code == '404'
           open(local_path, 'wb') { |file| file.write(resp.body) }
         end
